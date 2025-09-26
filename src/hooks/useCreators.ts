@@ -88,7 +88,7 @@ export function useCreators() {
     address: CONTRACT_ADDRESSES.HIBEATS_PROFILE,
     abi: HIBEATS_PROFILE_ABI,
     functionName: 'readAllProfiles',
-    args: [BigInt(0), BigInt(20)], // Get first 20 profiles
+    args: [BigInt(0), BigInt(100)], // Get first 100 profiles
   });
 
   // Get total stats
@@ -150,13 +150,13 @@ export function useCreators() {
 
     // Add recent creators to fill remaining slots
     for (const creator of recent) {
-      if (!seen.has(creator.address) && creator.isActive && combined.length < 12) {
+      if (!seen.has(creator.address) && creator.isActive) {
         seen.add(creator.address);
         combined.push({ ...creator, source: 'recent' });
       }
     }
 
-    return combined.slice(0, 12);
+    return combined;
   };
 
   const isLoading = isLoadingActive || isLoadingRecent || isLoadingTopTracks || isLoadingTopEarnings || isLoadingAll;

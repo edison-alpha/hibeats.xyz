@@ -155,23 +155,10 @@ export const WalletConnect = () => {
     fetchSomniaName();
   }, [address, isConnected]);
 
-  // Loading state during connection - with stable state management
-  const isLoading = isConnecting || isReconnecting || isPending || connectingRef.current;
-  
-  // Stable connection state to prevent flicker
-  const [stableConnected, setStableConnected] = useState(isConnected);
-  
-  useEffect(() => {
-    if (isConnected && !isReconnecting) {
-      // Set stable connected after small delay to prevent flicker
-      const timer = setTimeout(() => setStableConnected(true), 50);
-      return () => clearTimeout(timer);
-    } else if (!isConnected && !isConnecting && !isReconnecting) {
-      setStableConnected(false);
-    }
-  }, [isConnected, isConnecting, isReconnecting]);
+  // Loading state during connection
+  const isLoading = isConnecting || isReconnecting || isPending;
 
-  if (!stableConnected) {
+  if (!isConnected) {
     return (
       <div className="flex items-center space-x-2">
         <Button
@@ -202,8 +189,8 @@ export const WalletConnect = () => {
 
   return (
     <div className="flex items-center space-x-3">
-      {/* Wallet Info Display - Clean Circular Design with anti-flicker */}
-      <div className="flex items-center space-x-3 bg-white/10 backdrop-blur-md rounded-full px-4 py-2 border border-white/20 hover:bg-white/15 transition-all duration-200 cursor-pointer opacity-100 animate-in fade-in duration-300">
+      {/* Wallet Info Display - Clean Circular Design */}
+      <div className="flex items-center space-x-3 bg-white/10 backdrop-blur-md rounded-full px-4 py-2 border border-white/20 hover:bg-white/15 transition-all duration-200 cursor-pointer">
         <div className="flex flex-col items-start min-w-0">
           {somniaName ? (
             <div className="flex items-center space-x-2">

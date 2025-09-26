@@ -87,6 +87,10 @@ const ExplorePage: React.FC = () => {
   // Loading states
   const [isInitialLoading, setIsInitialLoading] = useState(true);
 
+  // Auto-scroll state for featured creators slider
+  const [isAutoScrolling, setIsAutoScrolling] = useState(true);
+  const [scrollDirection, setScrollDirection] = useState<'right' | 'left'>('right');
+
   // Initialize loading state
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -121,7 +125,7 @@ const ExplorePage: React.FC = () => {
     address: CONTRACT_ADDRESSES.HIBEATS_PROFILE,
     abi: HIBEATS_PROFILE_ABI,
     functionName: 'getTopCreators',
-    args: [20n], // Get top 20 creators
+    args: [100n], // Get top 100 creators
   });
 
   // Get specific featured creator profile (edisonalpha)
@@ -186,6 +190,43 @@ const ExplorePage: React.FC = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const footerRef = useRef<HTMLDivElement>(null);
   const letterRefs = useRef<(HTMLSpanElement | null)[]>([]);
+
+  // Auto-scroll effect for featured creators slider
+  useEffect(() => {
+    if (!isAutoScrolling || featuredCreators.length === 0) return;
+
+    const interval = setInterval(() => {
+      const container = document.getElementById('creators-slider');
+      if (container) {
+        const maxScrollLeft = container.scrollWidth - container.clientWidth;
+        const currentScrollLeft = container.scrollLeft;
+
+        if (scrollDirection === 'right') {
+          // Scrolling right
+          if (currentScrollLeft >= maxScrollLeft - 5) {
+            // Reached the end, switch to left
+            setScrollDirection('left');
+          } else {
+            container.scrollBy({ left: 320, behavior: 'smooth' });
+          }
+        } else {
+          // Scrolling left
+          if (currentScrollLeft <= 5) {
+            // Reached the start, switch to right
+            setScrollDirection('right');
+          } else {
+            container.scrollBy({ left: -320, behavior: 'smooth' });
+          }
+        }
+      }
+    }, 3000); // Auto-scroll every 3 seconds
+
+    return () => clearInterval(interval);
+  }, [isAutoScrolling, featuredCreators.length, scrollDirection]);
+
+  // Pause auto-scroll on hover
+  const handleSliderMouseEnter = () => setIsAutoScrolling(false);
+  const handleSliderMouseLeave = () => setIsAutoScrolling(true);
   
   // Initialize MetadataStrategy with useRef to prevent recreation
   const metadataStrategyRef = useRef<MetadataStrategy>();
@@ -1175,11 +1216,6 @@ const ExplorePage: React.FC = () => {
             <div>
               <h2 className="text-2xl font-bold text-white mb-2">🎵 Featured Creators</h2>
             </div>
-            {featuredCreators.length > 6 && (
-              <Button variant="ghost" className="text-gray-400 hover:text-white">
-                View All ({featuredCreators.length})
-              </Button>
-            )}
           </div>
 
           {/* Featured Creators Horizontal Slider */}
@@ -1218,6 +1254,8 @@ const ExplorePage: React.FC = () => {
                 msOverflowStyle: 'none',
                 '&::-webkit-scrollbar': { display: 'none' }
               }}
+              onMouseEnter={handleSliderMouseEnter}
+              onMouseLeave={handleSliderMouseLeave}
             >
               {isLoadingCreators ? (
                 // Loading state
