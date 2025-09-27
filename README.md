@@ -1,5 +1,8 @@
 # HiBeats
-
+![Built on Somnia](https://img.shields.io/badge/Built%20on-Somnia-blueviolet?style=for-the-badge&logo=ethereum)  
+![AI Powered](https://img.shields.io/badge/AI-Powered-lightblue?style=for-the-badge&logo=openai)  
+![License MIT](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)  
+![Status](https://img.shields.io/badge/Status-Production%20Ready-success?style=for-the-badge)  
 ## Project Demo
 [Go to site](https://www.hibeats.xyz/)
 
