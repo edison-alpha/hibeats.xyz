@@ -267,7 +267,7 @@ These smart contracts power HiBeats' comprehensive music creation and trading ec
 - 🌐 Website: [https://www.hibeats.xyz/](https://www.hibeats.xyz/)
 - 🏢 Organization: [https://github.com/NGDK101/Hibeats--Somnia-Defi-Mini-Hackathon](https://github.com/NGDK101/Hibeats--Somnia-Defi-Mini-Hackathon)
 - 📑 Documentation: [Comprehensive Documentation]()
-- 🎥 Demo Video: [Platform Walkthrough]((https://drive.google.com/drive/folders/1GRXqQw2aVn-GUDIRMctkXrcnAAhMlRvB))
+- 🎥 Demo Video: [Platform Walkthrough](https://drive.google.com/drive/folders/1GRXqQw2aVn-GUDIRMctkXrcnAAhMlRvB)
 
 ---
 
