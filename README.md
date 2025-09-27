@@ -137,6 +137,10 @@ By combining Suno AI technology with Somnia blockchain infrastructure, HiBeats u
 ## Marketplace
 
 <img width="1919" height="918" alt="Screenshot 2025-09-27 170239" src="https://github.com/user-attachments/assets/6f40d597-8ce7-4fd3-9ca2-bd00f032e0cc" />
+
+
+
+
 <img width="1914" height="920" alt="Screenshot 2025-09-27 170340" src="https://github.com/user-attachments/assets/a09c72b7-b803-408a-b799-49b8be435adc" />
 
 
