@@ -1,9 +1,10 @@
 # HiBeats
 
 ## Project Demo
-[Go to site](https://www.hibeats.fun/)
+[Go to site](https://www.hibeats.xyz/)
 
-![Project Screenshot](https://via.placeholder.com/800x400/1a1b23/ffffff?text=HiBeats+Platform)
+![Project Screenshot](<img width="1918" height="921" alt="Screenshot 2025-09-27 165912" src="https://github.com/user-attachments/assets/370af5a1-bc08-4e2b-81f0-c968b8d25c75" />
+)
 
 ---
 # Overview
@@ -135,7 +136,8 @@ By combining Suno AI technology with Somnia blockchain infrastructure, HiBeats u
 ---
 
 ## Marketplace
-![Marketplace Screenshot](https://via.placeholder.com/800x400/1a1b23/ffffff?text=HiBeats+NFT+Marketplace)
+![Marketplace Screenshot](<img width="1914" height="920" alt="Screenshot 2025-09-27 170340" src="https://github.com/user-attachments/assets/0584e663-6bb0-467a-b4bf-166e1249d5e6" />
+)
 
 HiBeats incorporates a purpose-built NFT marketplace that enables users to trade, discover, and collect AI-generated music directly within the platform without needing external marketplaces. Inspired by modern marketplace architectures, the system is tightly integrated into the HiBeats ecosystem to facilitate real-time, on-chain music NFT trading with minimal friction.
 
@@ -257,9 +259,9 @@ These smart contracts power HiBeats' comprehensive music creation and trading ec
 
 ## 🔗 Links
 
-- 🌐 Website: [https://www.hibeats.fun/](https://www.hibeats.fun/)
+- 🌐 Website: [https://www.hibeats.fun/](https://www.hibeats.xyz/)
 - 🏢 Organization: [https://github.com/yourusername/hibeats-github](https://github.com/yourusername/hibeats-github)
-- 📑 Documentation: [Comprehensive Documentation](./HIBEATS_COMPREHENSIVE_DOCUMENTATION.md)
+- 📑 Documentation: [Comprehensive Documentation](https://drive.google.com/drive/folders/1GRXqQw2aVn-GUDIRMctkXrcnAAhMlRvB)
 - 🎥 Demo Video: [Platform Walkthrough](#)
 
 ---
