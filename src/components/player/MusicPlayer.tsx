@@ -29,6 +29,8 @@ interface MusicPlayerProps {
   currentSong?: any;
   playlist?: any[];
   currentIndex?: number;
+  isPlaying?: boolean;
+  onPlayPause?: (isPlaying: boolean) => void;
   onNext?: () => void;
   onPrevious?: () => void;
   onSongChange?: (song: GeneratedMusic, index: number) => void;
@@ -41,6 +43,8 @@ export const MusicPlayer = ({
   currentSong = null, 
   playlist = [], 
   currentIndex = 0,
+  isPlaying: externalIsPlaying = false,
+  onPlayPause,
   onNext,
   onPrevious,
   onSongChange,
@@ -49,7 +53,7 @@ export const MusicPlayer = ({
   className 
 }: MusicPlayerProps) => {
   const audioRef = useRef<HTMLAudioElement>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(externalIsPlaying);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(0.8);
@@ -77,18 +81,17 @@ export const MusicPlayer = ({
   const [position, setPosition] = useState({ x: -1, y: -1 }); // Use -1 as initial state indicator
   const dragRef = useRef<HTMLDivElement>(null);
 
-  // Check for reduced motion preference
+  // Sync with external isPlaying state
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setPrefersReducedMotion(mediaQuery.matches);
-    
-    const handleChange = (e: MediaQueryListEvent) => {
-      setPrefersReducedMotion(e.matches);
-    };
-    
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }, []);
+    setIsPlaying(externalIsPlaying);
+  }, [externalIsPlaying]);
+
+  // Notify parent when isPlaying changes
+  useEffect(() => {
+    if (onPlayPause) {
+      onPlayPause(isPlaying);
+    }
+  }, [isPlaying, onPlayPause]);
 
   // Auto-collapse functionality
   useEffect(() => {
