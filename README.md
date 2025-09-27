@@ -3,8 +3,7 @@
 ## Project Demo
 [Go to site](https://www.hibeats.xyz/)
 
-![Project Screenshot](<img width="1918" height="921" alt="Screenshot 2025-09-27 165912" src="https://github.com/user-attachments/assets/370af5a1-bc08-4e2b-81f0-c968b8d25c75" />
-)
+<img width="1918" height="921" alt="Screenshot 2025-09-27 165912" src="https://github.com/user-attachments/assets/ee1ed4e1-0ee3-4e3c-a175-b2cfc01dcc4e" />
 
 ---
 # Overview
@@ -136,8 +135,10 @@ By combining Suno AI technology with Somnia blockchain infrastructure, HiBeats u
 ---
 
 ## Marketplace
-![Marketplace Screenshot](<img width="1914" height="920" alt="Screenshot 2025-09-27 170340" src="https://github.com/user-attachments/assets/0584e663-6bb0-467a-b4bf-166e1249d5e6" />
-)
+
+<img width="1919" height="918" alt="Screenshot 2025-09-27 170239" src="https://github.com/user-attachments/assets/6f40d597-8ce7-4fd3-9ca2-bd00f032e0cc" />
+<img width="1914" height="920" alt="Screenshot 2025-09-27 170340" src="https://github.com/user-attachments/assets/a09c72b7-b803-408a-b799-49b8be435adc" />
+
 
 HiBeats incorporates a purpose-built NFT marketplace that enables users to trade, discover, and collect AI-generated music directly within the platform without needing external marketplaces. Inspired by modern marketplace architectures, the system is tightly integrated into the HiBeats ecosystem to facilitate real-time, on-chain music NFT trading with minimal friction.
 
