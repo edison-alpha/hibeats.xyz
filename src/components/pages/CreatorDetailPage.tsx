@@ -30,6 +30,7 @@ import defaultAvatar from '@/images/assets/defaultprofile.gif';
 import { ImageWithFallback } from '@/components/ui/ImageWithFallback';
 import { TrackCard } from '@/components/music/TrackCard';
 import { ipfsToGatewayUrl } from '@/utils/ipfsGatewayHelper';
+import { useNFTMetadata } from '@/hooks/useNFTMetadata';
 
 
 const CreatorDetailPage: React.FC = () => {
@@ -193,8 +194,8 @@ const CreatorDetailPage: React.FC = () => {
           tags: trackInfo?.tags || '',
           aiCreatedAt: trackInfo?.aiCreatedAt ? Number(trackInfo.aiCreatedAt) : 0,
           // Provide meaningful track name from TrackInfo
-          title: trackInfo?.aiTrackId || `${trackInfo?.genre || 'Unknown'} Track #${tokenId}`,
-          name: trackInfo?.aiTrackId || `${trackInfo?.genre || 'Unknown'} Track #${tokenId}`,
+          title: `${trackInfo?.genre || 'AI'} Music Track` || trackInfo?.aiTrackId || `${trackInfo?.genre || 'Unknown'} Track #${tokenId}`,
+          name: `${trackInfo?.genre || 'AI'} Music Track` || trackInfo?.aiTrackId || `${trackInfo?.genre || 'Unknown'} Track #${tokenId}`,
         };
       });
     }
@@ -396,6 +397,21 @@ const CreatorDetailPage: React.FC = () => {
         metadata.image = metadata.image.replace('ipfs://', 'https://gateway.pinata.cloud/ipfs/');
       }
 
+      // Handle audio URLs in metadata
+      if (metadata.animation_url && metadata.animation_url.startsWith('ipfs://')) {
+        metadata.audioUrl = metadata.animation_url.replace('ipfs://', 'https://gateway.pinata.cloud/ipfs/');
+      } else if (metadata.audio && metadata.audio.startsWith('ipfs://')) {
+        metadata.audioUrl = metadata.audio.replace('ipfs://', 'https://gateway.pinata.cloud/ipfs/');
+      } else if (metadata.audio_url && metadata.audio_url.startsWith('ipfs://')) {
+        metadata.audioUrl = metadata.audio_url.replace('ipfs://', 'https://gateway.pinata.cloud/ipfs/');
+      } else if (metadata.animation_url) {
+        metadata.audioUrl = metadata.animation_url;
+      } else if (metadata.audio) {
+        metadata.audioUrl = metadata.audio;
+      } else if (metadata.audio_url) {
+        metadata.audioUrl = metadata.audio_url;
+      }
+
       setTracksMetadata(prev => new Map(prev).set(trackId, metadata));
     } catch (error) {
       console.error(`❌ Error fetching metadata for track ${trackId}, using fallback:`, error);
@@ -430,9 +446,9 @@ const CreatorDetailPage: React.FC = () => {
 
           // Create enhanced metadata from TrackInfo
           const enhancedMetadata = {
-            name: trackInfo.aiTrackId || `AI Track ${tokenId}`,
+            name: trackInfo.aiTrackId || `${trackInfo.genre || 'AI'} Music Track` || `AI Track ${tokenId}`,
             description: `${trackInfo.genre} track created with ${trackInfo.modelUsed}`,
-            image: '/api/placeholder/300/200', // We'll need to get this from tokenURI
+            image: `https://source.unsplash.com/random/300x200/?music,${trackInfo.genre || 'electronic'}`,
             duration: trackInfo.duration ? `${Math.floor(Number(trackInfo.duration) / 60)}:${String(Number(trackInfo.duration) % 60).padStart(2, '0')}` : '0:00',
             genre: trackInfo.genre,
             creator: trackInfo.creator,
@@ -591,8 +607,38 @@ const CreatorDetailPage: React.FC = () => {
         });
     }
 
+    // Enhance tracks with metadata including audioUrl
+    const enhancedTracks = filteredTracks.map(track => {
+      const trackId = track.id || track.tokenId || track.listingId;
+      const metadata = tracksMetadata.get(trackId?.toString());
 
-    return filteredTracks;
+      // Use same logic as ActiveListingCard for title and image
+      const displayTitle = metadata?.name || track.title || track.aiTrackId || `Music NFT #${trackId}`;
+      const displayArtist = creator?.displayName || metadata?.artist || track.artist || track.creator || `Creator ${track.creator?.slice(0, 6)}...${track.creator?.slice(-4)}`;
+      const displayGenre = metadata?.genre || track.genre || 'Unknown';
+      const displayImage = metadata?.image || track.imageUrl;
+
+      // Handle IPFS URLs like ActiveListingCard
+      const processedImageUrl = displayImage ? (
+        displayImage.startsWith('ipfs://')
+          ? displayImage.replace('ipfs://', 'https://gateway.pinata.cloud/ipfs/')
+          : displayImage
+      ) : `https://source.unsplash.com/random/300x200/?music,${displayGenre || 'electronic'}`;
+
+      const audioUrl = metadata?.animation_url || metadata?.audioUrl || metadata?.audio || metadata?.audio_url || track.audioUrl;
+
+      return {
+        ...track,
+        audioUrl,
+        imageUrl: processedImageUrl,
+        title: displayTitle,
+        artist: displayArtist,
+        duration: metadata?.duration || track.duration,
+        genre: displayGenre,
+      };
+    });
+
+    return enhancedTracks;
   };
 
   return (

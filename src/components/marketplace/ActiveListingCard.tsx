@@ -4,6 +4,7 @@ import { Music, Play } from 'lucide-react';
 import { useNFTMetadata } from '@/hooks/useNFTMetadata-optimized';
 import { useMusicPlayerContext } from '@/hooks/useMusicPlayerContext';
 import { ImageWithFallback } from '@/components/ui/ImageWithFallback';
+import { useCreatorProfile } from '@/hooks/useCreatorProfile';
 
 interface ActiveListingCardProps {
   listing: {
@@ -32,11 +33,12 @@ interface ActiveListingCardProps {
 const ActiveListingCard: React.FC<ActiveListingCardProps> = ({ listing, onClick, onBuy }) => {
   const { metadata, isLoading: isLoadingMetadata, error: metadataError } = useNFTMetadata(listing.tokenId);
   const { playSong } = useMusicPlayerContext();
+  const { creator } = useCreatorProfile(listing.seller);
   const [isClicking, setIsClicking] = useState(false);
 
   // Use metadata if available, otherwise fallback to listing data
   const displayTitle = metadata?.name || listing.title || `Music NFT #${listing.tokenId}`;
-  const displayArtist = metadata?.artist || listing.artist || `Creator ${listing.seller.slice(0, 6)}...${listing.seller.slice(-4)}`;
+  const displayArtist = creator?.displayName || metadata?.artist || listing.artist || `Creator ${listing.seller.slice(0, 6)}...${listing.seller.slice(-4)}`;
   const displayGenre = metadata?.genre || listing.genre || listing.category || 'Unknown';
   const displayImage = metadata?.image || listing.imageUrl;
   const audioUrl = metadata?.audio_url || listing.audioUrl;
@@ -142,7 +144,7 @@ const ActiveListingCard: React.FC<ActiveListingCardProps> = ({ listing, onClick,
               }}>
             {displayTitle}
           </h3>
-          <p className="text-gray-400 text-xs">{displayArtist}</p>
+          <p className="text-gray-400 text-xs">Creator {displayArtist}</p>
           <p className="text-gray-500 text-xs">{displayGenre}</p>
 
           {/* Buy Button */}

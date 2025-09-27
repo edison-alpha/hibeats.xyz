@@ -199,7 +199,47 @@ const Index = () => {
   }
 
   if (location.pathname.startsWith('/creator')) {
-    return <CreatorDetailPage />;
+    return (
+      <div className="min-h-screen relative">
+        {/* Tab switching loading overlay */}
+        <TabSwitchLoading 
+          isVisible={isTabSwitching}
+          fromTab={fromTab}
+          toTab={toTab}
+        />
+
+        {/* Main loading screen for initial page loads */}
+        <LoadingScreen 
+          isVisible={isPageLoading && !isTabSwitching}
+          message="Loading Creator Details..."
+          showProgress={false}
+        />
+
+        <Navigation 
+          activeTab={activeTab}
+          onTabChange={handleTabChange}
+          userProfile={userProfile}
+          hasProfile={hasProfile}
+        />
+
+        <main className="pb-32">
+          <CreatorDetailPage />
+        </main>
+
+        {/* Music Player - show when there's a song */}
+        {currentSong && (
+          <MusicPlayer 
+            currentSong={currentSong}
+            playlist={playlist}
+            currentIndex={currentIndex}
+            onNext={playNext}
+            onPrevious={playPrevious}
+            onSongChange={changeSong}
+            onPlayingChange={setIsPlaying}
+          />
+        )}
+      </div>
+    );
   }
 
   return (
@@ -254,16 +294,18 @@ const Index = () => {
         </div>
       </main>
 
-      {/* Music Player - always visible */}
-      <MusicPlayer 
-        currentSong={currentSong}
-        playlist={playlist}
-        currentIndex={currentIndex}
-        onNext={playNext}
-        onPrevious={playPrevious}
-        onSongChange={changeSong}
-        onPlayingChange={setIsPlaying}
-      />
+      {/* Music Player - show when there's a song */}
+      {console.log('🎵 Index rendering, currentSong:', currentSong) || (currentSong && (
+        <MusicPlayer 
+          currentSong={currentSong}
+          playlist={playlist}
+          currentIndex={currentIndex}
+          onNext={playNext}
+          onPrevious={playPrevious}
+          onSongChange={changeSong}
+          onPlayingChange={setIsPlaying}
+        />
+      ))}
     </div>
   );
 };

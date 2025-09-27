@@ -26,8 +26,8 @@ import { AudioVisualizerBackground } from "@/components/ui/audio-visualizer-back
 import { AudioContextProvider } from "@/hooks/useAudioContext";
 
 interface MusicPlayerProps {
-  currentSong?: GeneratedMusic;
-  playlist?: GeneratedMusic[];
+  currentSong?: any;
+  playlist?: any[];
   currentIndex?: number;
   onNext?: () => void;
   onPrevious?: () => void;
@@ -887,7 +887,7 @@ export const MusicPlayer = ({
                       {currentSong ? currentSong.title : "No song"}
                     </h3>
                     <p className="text-xs text-muted-foreground truncate">
-                      {currentSong ? currentSong.artist : "Select a song"}
+                      {currentSong ? `Creator ${currentSong.artist}` : "Select a song"}
                     </p>
                   </div>
                 </div>
@@ -972,7 +972,7 @@ export const MusicPlayer = ({
                         {currentSong ? currentSong.title : "No song selected"}
                       </h3>
                       <p className="text-sm text-muted-foreground hover:underline cursor-pointer leading-tight">
-                        {currentSong ? currentSong.artist : "Choose a song to play"}
+                        {currentSong ? `Creator ${currentSong.artist}` : "Choose a song to play"}
                       </p>
                     </div>
                     

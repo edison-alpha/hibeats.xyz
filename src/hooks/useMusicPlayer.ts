@@ -2,8 +2,8 @@ import { useState, useCallback, useEffect } from "react";
 import { GeneratedMusic } from "@/types/music";
 
 export const useMusicPlayer = () => {
-  const [currentSong, setCurrentSong] = useState<GeneratedMusic | null>(null);
-  const [playlist, setPlaylist] = useState<GeneratedMusic[]>([]);
+  const [currentSong, setCurrentSong] = useState<any>(null);
+  const [playlist, setPlaylist] = useState<any[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlayerVisible, setIsPlayerVisible] = useState(false);
 
@@ -24,7 +24,7 @@ export const useMusicPlayer = () => {
     }
   }, [playlist, currentSong]);
 
-  const playSong = useCallback((song: GeneratedMusic, songPlaylist?: GeneratedMusic[]) => {
+  const playSong = useCallback((song: any, songPlaylist?: any[]) => {
     setCurrentSong(song);
     
     if (songPlaylist) {
@@ -64,7 +64,7 @@ export const useMusicPlayer = () => {
     }
   }, [currentIndex, playlist]);
 
-  const changeSong = useCallback((song: GeneratedMusic, index: number) => {
+  const changeSong = useCallback((song: any, index: number) => {
     setCurrentSong(song);
     setCurrentIndex(index);
   }, []);

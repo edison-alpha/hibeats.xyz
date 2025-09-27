@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Play, Eye, Heart, Clock } from 'lucide-react';
 import { ImageWithFallback } from '@/components/ui/ImageWithFallback';
 import { useNFTMetadata } from '@/hooks/useNFTMetadata-optimized';
+import { useCreatorProfile } from '@/hooks/useCreatorProfile';
 
 interface TrackCardProps {
   track: any;
@@ -12,12 +13,19 @@ interface TrackCardProps {
 export const TrackCard: React.FC<TrackCardProps> = ({ track, onPlay }) => {
   const tokenId = track.tokenId || track.id || 0;
   const { metadata, isLoading, error } = useNFTMetadata(tokenId);
+  const { creator } = useCreatorProfile(track.creator);
 
-  // Extract track info
-  const trackTitle = metadata?.name || track.title || track.aiTrackId || `Track #${tokenId}`;
-  const trackArtist = metadata?.artist || track.artist || track.creator || 'Unknown Artist';
+  // Extract track info using same logic as ActiveListingCard
+  const trackTitle = metadata?.name || track.title || track.aiTrackId || `Music NFT #${tokenId}`;
+  const trackArtist = creator?.displayName || metadata?.artist || track.artist || track.creator || `Creator ${track.creator?.slice(0, 6)}...${track.creator?.slice(-4)}`;
   const trackGenre = metadata?.genre || track.genre || 'Unknown';
-  const trackImage = metadata?.image || track.imageUrl || track.thumbnail || '/api/placeholder/300/200';
+  const rawImage = metadata?.image || track.imageUrl || track.thumbnail;
+  const trackImage = rawImage ? (
+    rawImage.startsWith('ipfs://')
+      ? rawImage.replace('ipfs://', 'https://gateway.pinata.cloud/ipfs/')
+      : rawImage
+  ) : `https://source.unsplash.com/random/300x200/?music,${trackGenre}`;
+  const trackAudioUrl = metadata?.animation_url || metadata?.audioUrl || metadata?.audio || metadata?.audio_url || track.audioUrl;
   const trackDuration = metadata?.duration || track.duration || '0:00';
   const trackPlays = track.plays || track.playCount || 0;
   const trackLikes = track.likes || track.likeCount || 0;
@@ -65,7 +73,15 @@ export const TrackCard: React.FC<TrackCardProps> = ({ track, onPlay }) => {
           <Button
             size="lg"
             className="rounded-full bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/30"
-            onClick={() => onPlay(track)}
+            onClick={() => onPlay({
+              ...track,
+              title: trackTitle,
+              artist: trackArtist,
+              imageUrl: trackImage,
+              audioUrl: trackAudioUrl,
+              genre: trackGenre,
+              duration: trackDuration
+            })}
           >
             <Play className="w-6 h-6" />
           </Button>
@@ -102,7 +118,7 @@ export const TrackCard: React.FC<TrackCardProps> = ({ track, onPlay }) => {
           {trackTitle}
         </h3>
 
-        <p className="text-white/60 text-sm">{trackArtist}</p>
+        <p className="text-white/60 text-sm">Creator {trackArtist}</p>
 
         <div className="flex items-center justify-between text-sm text-white/60">
           <div className="flex items-center space-x-4">
