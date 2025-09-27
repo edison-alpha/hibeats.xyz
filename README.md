@@ -374,62 +374,62 @@ By combining comprehensive smart contract coverage with user-friendly interfaces
 ## Deployed Contracts on Somnia
 
 - **HiBeatsToken (BEATS)**
-  - **Address**: `0xf56748FF80fc515098AB8352bAFBe5B6136B9E16`
+  - **Address**: `0x665641f2b9614027b4fF55E1d562aD3f97F26784`
   - **Function**: Platform utility token for rewards and governance
   - **Features**: Automated reward distribution, staking support
 
 - **HiBeatsNFT**
-  - **Address**: `0xD443EB74ac859eB5C2Bb190087b087A5B292f433`
+  - **Address**: `0x429294B8e46b07AdE397A0478baEA87F168F9E32`
   - **Function**: Music NFT minting and ownership management
   - **Features**: Embedded royalties, metadata storage
 
 - **Marketplace**
-  - **Address**: `0x191b8618e6FF7135998F233584880Ed08144B1fD`
+  - **Address**: `0xC4d82fe72A690b0DDC0e53C91Efa9fa4485d1D60`
   - **Function**: NFT trading and price discovery
   - **Features**: Fixed price sales, auction support
 
 - **Factory**
-  - **Address**: `0xC334157d23489C4C0a6c0204f523fCEd090e8465`
+  - **Address**: `0xbC79e69d0993AFAF74657e9578425339fF94c9CD`
   - **Function**: Contract deployment and management
   - **Features**: Automated contract creation
 
 - **Profile Management**
-  - **Address**: `0x660ca3bcD820503DEA255A884FD139b7e0b92cA5`
+  - **Address**: `0x1259D20501c2574C36d7A80c45B9bD4CbE152c6B`
   - **Function**: Creator profile and social features
   - **Features**: Portfolio tracking, social connections
 
 - **Royalty Distribution**
-  - **Address**: `0x48e0B5b32d0F687C0EE1a7FFd472f0c76812D2f5`
+  - **Address**: `0xa110b05952c4E504285d38Bd38cA8b6F0F8c0cE8`
   - **Function**: Automated creator compensation
   - **Features**: Secondary sale royalties, instant payouts
 
 - **Playlist Management**
-  - **Address**: `0x13185568f7D2e3eE39B69dFe45ab1a689F37E615`
+  - **Address**: `0x7bbd3dfe64164b11aa11DFD209A4F16B797e14d4`
   - **Function**: Community playlist creation
   - **Features**: Collaborative playlists, discovery
 
 - **Staking System**
-  - **Address**: `0x3b1986926419472875324dEC8F04b81EF5Da600c`
+  - **Address**: `0x4d6e22739B70531338e0e79e4938E927a200779B`
   - **Function**: BEATS token staking and yield generation
   - **Features**: Flexible staking periods, reward multipliers
 
 - **Discovery Engine**
-  - **Address**: `0x05c9961DEad527cE79C7daA1DDf202cee81f629b`
+  - **Address**: `0xC648F2f6F8C1F1D6F5aDF3A03c934d0f7013C693`
   - **Function**: Music recommendation and search
   - **Features**: Genre filtering, trend tracking
 
 - **Analytics Tracking**
-  - **Address**: `0xDA9650203089c316A922D24994601cf7b466Ca8c`
+  - **Address**: `0x61272668C7dF68F9c6B60C6d0edd9cB650e9fd88`
   - **Function**: Platform metrics and creator analytics
   - **Features**: Real-time statistics, performance tracking
 
 - **Social Interactions**
-  - **Address**: `0xED078A95C693FbA7De46f1DF9A82d083A3c6A076`
+  - **Address**: `0xA96A4b990C400666bEf50aCE2348382D664cE7de`
   - **Function**: Community engagement features
   - **Features**: Following, likes, comments
 
 - **Governance System**
-  - **Address**: `0xf8A073b5C4C502B0B9bd47977402a3a992A59e34`
+  - **Address**: `0xD571586eba34033FB1134DF6BB982cB61625e174`
   - **Function**: Community governance and voting
   - **Features**: Proposal creation, token-weighted voting
 
