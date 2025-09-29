@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import loadImage from '../../../images/assets/load.png';
-
 const DesktopOnlyWarning = ({ children }: { children: React.ReactNode }) => {
   const [isDesktop, setIsDesktop] = useState(true);
 
@@ -50,7 +48,7 @@ const DesktopOnlyWarning = ({ children }: { children: React.ReactNode }) => {
             <div className="mb-6">
               <div className="w-32 h-32 mx-auto mb-4 loading-logo">
                 <img
-                  src={loadImage}
+                  src="/src/images/assets/load.png"
                   alt="HiBeats Logo"
                   className="w-full h-full object-contain"
                 />
