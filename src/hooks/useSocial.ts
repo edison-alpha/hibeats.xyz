@@ -1,9 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useAccount, useWriteContract, useReadContract, useWaitForTransactionReceipt } from 'wagmi';
 import { profileStorage } from '@/utils/profileStorage';
-
-// Mock contract address - replace with actual deployed address
-const HIBEATS_PROFILE_CONTRACT = '0x1234567890123456789012345678901234567890';
+import { CONTRACT_ADDRESSES } from '@/config/web3';
+import { HIBEATS_PROFILE_ABI } from '@/contracts/HiBeatsProfileABI';
 
 export interface SocialProfile {
   address: string;
@@ -43,6 +42,36 @@ export const useSocial = () => {
     hash,
   });
 
+  // Helper function to check if following
+  const checkIsFollowing = useCallback(async (follower: string, following: string): Promise<boolean> => {
+    try {
+      const result = await readContract({
+        address: CONTRACT_ADDRESSES.HIBEATS_PROFILE,
+        abi: HIBEATS_PROFILE_ABI,
+        functionName: 'isFollowing',
+        args: [follower as `0x${string}`, following as `0x${string}`],
+      });
+      return Boolean(result);
+    } catch (error) {
+      console.error('Error checking follow status:', error);
+      return false;
+    }
+  }, []);
+
+  // Helper function to read from contract
+  const readContract = useCallback(async (config: any) => {
+    return new Promise((resolve, reject) => {
+      try {
+        // This is a simplified version - in real implementation you'd use useReadContract properly
+        // For now, fallback to localStorage to maintain functionality
+        const isFollowing = profileStorage.isFollowing(config.args[0], config.args[1]);
+        resolve(isFollowing);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }, []);
+
   // Load profile from storage on component mount
   useEffect(() => {
     if (address) {
@@ -67,41 +96,33 @@ export const useSocial = () => {
       setError(null);
       setIsLoading(true);
 
-      // Use real storage instead of mock
-      const success = profileStorage.followUser(address, targetAddress);
-      if (!success) {
-        setError('Already following this user or cannot follow yourself');
+      // Check if already following
+      const isAlreadyFollowing = await checkIsFollowing(address, targetAddress);
+      if (isAlreadyFollowing) {
+        setError('Already following this user');
         return false;
       }
 
-      // Update local state with real stats
-      const followerStats = profileStorage.getStats(targetAddress);
-      const userStats = profileStorage.getStats(address);
+      if (address.toLowerCase() === targetAddress.toLowerCase()) {
+        setError('Cannot follow yourself');
+        return false;
+      }
 
-      setSocialStats(prev => {
-        const newStats = new Map(prev);
-        
-        // Update target user's stats
-        newStats.set(targetAddress, {
-          followerCount: followerStats.followerCount,
-          followingCount: followerStats.followingCount,
-          isFollowing: false,
-          isFollowedBy: profileStorage.isFollowing(targetAddress, address),
-          mutualFollowers: []
-        });
+      // Call smart contract followCreator function
+      console.log('🔗 Calling smart contract followCreator...');
+      console.log('   Contract Address:', CONTRACT_ADDRESSES.HIBEATS_PROFILE);
+      console.log('   Target Address:', targetAddress);
 
-        // Update current user's stats
-        newStats.set(address, {
-          followerCount: userStats.followerCount,
-          followingCount: userStats.followingCount,
-          isFollowing: true,
-          isFollowedBy: profileStorage.isFollowing(targetAddress, address),
-          mutualFollowers: []
-        });
-
-        return newStats;
+      await writeContract({
+        address: CONTRACT_ADDRESSES.HIBEATS_PROFILE,
+        abi: HIBEATS_PROFILE_ABI,
+        functionName: 'followCreator',
+        args: [targetAddress as `0x${string}`],
       });
 
+      console.log('✅ Smart contract call initiated');
+      // The transaction will be handled by wagmi's transaction system
+      // The UI will update when the transaction is confirmed
       return true;
     } catch (err: any) {
       setError(err.message || 'Failed to follow user');
@@ -109,7 +130,7 @@ export const useSocial = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [address]);
+  }, [address, writeContract]);
 
   // Unfollow a user
   const unfollowUser = useCallback(async (targetAddress: string) => {
@@ -122,41 +143,22 @@ export const useSocial = () => {
       setError(null);
       setIsLoading(true);
 
-      // Use real storage
-      const success = profileStorage.unfollowUser(address, targetAddress);
-      if (!success) {
+      // Check if currently following
+      const isCurrentlyFollowing = await checkIsFollowing(address, targetAddress);
+      if (!isCurrentlyFollowing) {
         setError('Not currently following this user');
         return false;
       }
 
-      // Update local state with real stats
-      const followerStats = profileStorage.getStats(targetAddress);
-      const userStats = profileStorage.getStats(address);
-
-      setSocialStats(prev => {
-        const newStats = new Map(prev);
-        
-        // Update target user's stats
-        newStats.set(targetAddress, {
-          followerCount: followerStats.followerCount,
-          followingCount: followerStats.followingCount,
-          isFollowing: false,
-          isFollowedBy: profileStorage.isFollowing(targetAddress, address),
-          mutualFollowers: []
-        });
-
-        // Update current user's stats
-        newStats.set(address, {
-          followerCount: userStats.followerCount,
-          followingCount: userStats.followingCount,
-          isFollowing: false,
-          isFollowedBy: profileStorage.isFollowing(targetAddress, address),
-          mutualFollowers: []
-        });
-
-        return newStats;
+      // Call smart contract unfollowCreator function
+      await writeContract({
+        address: CONTRACT_ADDRESSES.HIBEATS_PROFILE,
+        abi: HIBEATS_PROFILE_ABI,
+        functionName: 'unfollowCreator',
+        args: [targetAddress as `0x${string}`],
       });
 
+      // The transaction will be handled by wagmi's transaction system
       return true;
     } catch (err: any) {
       setError(err.message || 'Failed to unfollow user');
@@ -164,7 +166,7 @@ export const useSocial = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [address]);
+  }, [address, writeContract, checkIsFollowing]);
 
   // Get social stats for a user
   const getSocialStats = useCallback(async (userAddress: string): Promise<SocialStats | null> => {

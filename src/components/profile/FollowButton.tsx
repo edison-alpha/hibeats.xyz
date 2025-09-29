@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { UserPlus, UserMinus, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useSocial } from '@/hooks/useSocial';
+import { useProfile } from '@/hooks/useProfile';
 import { useNotifications } from '@/hooks/useNotifications';
 import { useAccount } from 'wagmi';
 import { cn } from '@/lib/utils';
@@ -25,6 +26,7 @@ export default function FollowButton({
 }: FollowButtonProps) {
   const { address } = useAccount();
   const { followUser, unfollowUser, getSocialStats, socialStats } = useSocial();
+  const { profile: currentUserProfile } = useProfile();
   const { notifyFollow } = useNotifications();
   const [isFollowingUser, setIsFollowingUser] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -66,12 +68,27 @@ export default function FollowButton({
         await unfollowUser(targetAddress);
         setIsFollowingUser(false);
         setFollowerCount(prev => Math.max(0, prev - 1));
+
+        // Note: Typically unfollow notifications are not sent to avoid spam,
+        // but if needed, they can be implemented here similarly to follow notifications
       } else {
         await followUser(targetAddress);
         setIsFollowingUser(true);
         setFollowerCount(prev => prev + 1);
 
-        // TODO: Follow notifications will be implemented when follow system is integrated with IPFS
+        // Create follow notification with user profile data
+        try {
+          await notifyFollow({
+            toUser: targetAddress,
+            fromUser: {
+              address,
+              username: currentUserProfile?.username || currentUserProfile?.displayName || address.slice(0, 6) + '...' + address.slice(-4),
+              avatar: currentUserProfile?.avatar
+            }
+          });
+        } catch (error) {
+          console.error('Failed to create follow notification:', error);
+        }
       }
     } catch (error) {
       console.error('Follow action failed:', error);

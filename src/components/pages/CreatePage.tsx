@@ -65,8 +65,9 @@ export const CreatePage = ({ onSongSelect }: CreatePageProps) => {
   }
 
   return (
-    <div className="h-[calc(100vh-6rem)]">
-      <ResizablePanelGroup direction="horizontal" className="h-full">
+    <div className="h-[calc(100vh-6rem)] flex flex-col">
+      <div className="flex-1">
+        <ResizablePanelGroup direction="horizontal" className="h-full">
         {/* Generate Panel - Left Column */}
         <ResizablePanel 
           defaultSize={25} 
@@ -123,7 +124,23 @@ export const CreatePage = ({ onSongSelect }: CreatePageProps) => {
             </ResizablePanel>
           </>
         )}
-      </ResizablePanelGroup>
+        </ResizablePanelGroup>
+      </div>
+
+      {/* Small Footer */}
+      <div className="flex-shrink-0 px-3 py-1 border-t border-glass-border/20 bg-gradient-to-r from-background/80 to-background/60 backdrop-blur-sm">
+        <div className="flex items-center justify-between text-[10px] text-foreground/70">
+          <div className="flex items-center space-x-3">
+            <span>© 2025 HiBeats</span>
+            <span className="text-foreground/40">•</span>
+            <span>Create. Mint. Trade.</span>
+          </div>
+          <div className="flex items-center space-x-1.5">
+            <span>Powered by AI</span>
+            <div className="w-1 h-1 bg-primary rounded-full animate-pulse"></div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

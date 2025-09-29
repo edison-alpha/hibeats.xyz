@@ -32,7 +32,8 @@ const Index = () => {
   const [selectedSong, setSelectedSong] = useState(null);
   const [isDetailsPanelVisible, setIsDetailsPanelVisible] = useState(false);
   const [showPlaylistSidebar, setShowPlaylistSidebar] = useState(true);
-  const { currentSong, playlist, currentIndex, playNext, playPrevious, changeSong, isPlayerVisible, stopAudio, isPlaying, setIsPlaying } = useMusicPlayerContext();
+  const { currentSong, playlist, currentIndex, playNext, playPrevious, changeSong, isPlayerVisible, stopAudio } = useMusicPlayerContext();
+  const [isPlaying, setIsPlaying] = useState(false);
   
   // Tab switching state
   const [isTabSwitching, setIsTabSwitching] = useState(false);
@@ -231,8 +232,6 @@ const Index = () => {
             currentSong={currentSong}
             playlist={playlist}
             currentIndex={currentIndex}
-            isPlaying={isPlaying}
-            onPlayPause={setIsPlaying}
             onNext={playNext}
             onPrevious={playPrevious}
             onSongChange={changeSong}
@@ -301,8 +300,6 @@ const Index = () => {
           currentSong={currentSong}
           playlist={playlist}
           currentIndex={currentIndex}
-          isPlaying={isPlaying}
-          onPlayPause={setIsPlaying}
           onNext={playNext}
           onPrevious={playPrevious}
           onSongChange={changeSong}

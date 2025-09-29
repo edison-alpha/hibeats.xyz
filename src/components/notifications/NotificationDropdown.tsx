@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import {
   Bell,
   Heart,
@@ -30,6 +31,7 @@ interface NotificationDropdownProps {
 }
 
 export const NotificationDropdown: React.FC<NotificationDropdownProps> = ({ onClose }) => {
+  const navigate = useNavigate();
   const {
     notifications,
     recentNotifications,
@@ -85,7 +87,9 @@ export const NotificationDropdown: React.FC<NotificationDropdownProps> = ({ onCl
 
     // Navigate to action URL if available
     if (notification.actionUrl) {
-      // In a real app, you'd use your router here
+      console.log('🔗 Navigating to:', notification.actionUrl);
+      navigate(notification.actionUrl);
+      onClose(); // Close notification dropdown after navigation
     }
   };
 
@@ -142,7 +146,7 @@ export const NotificationDropdown: React.FC<NotificationDropdownProps> = ({ onCl
               onClick={refreshNotifications}
               disabled={isLoading}
               className="text-xs text-green-400 hover:text-green-300"
-              title="Refresh from IPFS"
+              title="Refresh from Blockchain"
             >
               <RefreshCw className={`w-4 h-4 mr-1 ${isLoading ? 'animate-spin' : ''}`} />
               Sync

@@ -38,7 +38,7 @@ import {
   Check,
   User
 } from 'lucide-react';
-import { useOptimisticProfile } from '@/hooks/useOptimisticProfile';
+
 import { useProfile } from '@/hooks/useProfile';
 import { useIPFS } from '@/hooks/useIPFS';
 import { useAccount, useWriteContract } from 'wagmi';

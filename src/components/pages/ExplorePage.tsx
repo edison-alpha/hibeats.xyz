@@ -1690,7 +1690,7 @@ const ExplorePage: React.FC = () => {
 
         {/* HiBeats Logo */}
         <div className="relative z-10 text-center pb-20">
-          <h1 className="text-[14rem] md:text-[18rem] lg:text-[22rem] xl:text-[26rem] font-bold leading-none">
+          <h1 className="text-[4rem] xs:text-[6rem] sm:text-[8rem] md:text-[12rem] lg:text-[16rem] xl:text-[20rem] 2xl:text-[24rem] font-bold leading-none">
             {'hibeats'.split('').map((letter, index) => (
               <span
                 key={index}

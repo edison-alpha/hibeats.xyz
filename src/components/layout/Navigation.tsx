@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useRef, useCallback, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Search, User, Sun, Flame, Gift, Bell } from "lucide-react";
+import { Search, User, Sun, Flame, Gift, Bell, BookOpen } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -243,6 +243,7 @@ export const Navigation = ({ activeTab, onTabChange, className, onNavigationStar
     { id: "explore", label: "explore", path: "/explore" },
     { id: "create", label: "create", path: "/create" },
     { id: "portfolio", label: "portfolio", path: "/portfolio" },
+    // { id: "docs", label: "docs", path: "/docs", icon: BookOpen }, // Temporarily hidden
   ];
 
   // Determine active tab based on current location
@@ -251,6 +252,7 @@ export const Navigation = ({ activeTab, onTabChange, className, onNavigationStar
     if (path === '/explore') return 'explore';
     if (path === '/create') return 'create';
     if (path === '/portfolio') return 'portfolio';
+    // if (path === '/docs') return 'docs'; // Temporarily hidden
     return activeTab;
   };
 
@@ -325,10 +327,11 @@ export const Navigation = ({ activeTab, onTabChange, className, onNavigationStar
                 key={item.id}
                 onClick={() => handleNavigation(item.id, item.path)}
                 className={cn(
-                  "text-white hover:text-white hover:bg-white/20 hover:scale-105 hover:translate-x-1 transition-all duration-300 ease-out px-6 py-3 text-base font-medium rounded-full transform inline-block cursor-pointer relative",
+                  "text-white hover:text-white hover:bg-white/20 hover:scale-105 hover:translate-x-1 transition-all duration-300 ease-out px-6 py-3 text-base font-medium rounded-full transform inline-block cursor-pointer relative flex items-center gap-2",
                   isActive && "text-white bg-white/15 scale-105 translate-x-1"
                 )}
               >
+                {item.icon && <item.icon className="w-4 h-4" />}
                 {item.label}
                 {/* Loading indicator for active navigation */}
                 {isActive && (
@@ -346,7 +349,7 @@ export const Navigation = ({ activeTab, onTabChange, className, onNavigationStar
             className="w-full flex items-center px-4 py-2.5 bg-white/5 hover:bg-white/10 border border-white/20 rounded-full text-left transition-colors group"
           >
             <Search className="w-4 h-4 text-gray-400 mr-3 group-hover:text-gray-300" />
-            <span className="text-sm text-gray-400 group-hover:text-gray-300">
+            <span className="text-xs text-gray-400 group-hover:text-gray-300">
               Search tracks, creators, genres...
             </span>
             <div className="ml-auto flex items-center space-x-1">

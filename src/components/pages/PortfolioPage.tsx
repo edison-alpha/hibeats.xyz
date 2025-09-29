@@ -1068,7 +1068,7 @@ export const PortfolioPage = ({ onSongSelect }: PortfolioPageProps) => {
                     <div className="text-sm text-white/70">Owned NFTs</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-blue-400">{realStats?.totalValue || '0.00'} ETH</div>
+                    <div className="text-2xl font-bold text-blue-400">{realStats?.totalValue || '0.00'} STT</div>
                     <div className="text-sm text-white/70">Total Value</div>
                   </div>
                   <div className="text-center">

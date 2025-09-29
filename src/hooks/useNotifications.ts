@@ -20,18 +20,28 @@ export const useNotifications = () => {
     }
 
     const loadNotifications = async () => {
+      console.log('🔥 === useNotifications: loadNotifications START ===');
+      console.log('👤 Address:', address);
       setIsLoading(true);
       try {
         await ipfsNotificationService.initialize(address);
+        console.log('⏳ Calling ipfsNotificationService.getNotifications...');
         const userNotifications = await ipfsNotificationService.getNotifications(address);
+        console.log('📊 Received notifications count:', userNotifications.length);
+        console.log('📋 Notifications data:', userNotifications);
+
         const unread = await ipfsNotificationService.getUnreadCount(address);
+        console.log('📬 Unread count:', unread);
 
         setNotifications(userNotifications);
         setUnreadCount(unread);
+        console.log('✅ State updated with notifications');
       } catch (error) {
-        console.error('Error loading notifications:', error);
+        console.error('❌ Error loading notifications:', error);
+        console.error('❌ Full error details:', error);
       } finally {
         setIsLoading(false);
+        console.log('🔥 === useNotifications: loadNotifications END ===');
       }
     };
 
@@ -44,21 +54,52 @@ export const useNotifications = () => {
       setUnreadCount(unread);
     });
 
+    // Set up periodic refresh for blockchain notifications
+    const refreshInterval = setInterval(async () => {
+      try {
+        const freshNotifications = await ipfsNotificationService.getNotifications(address);
+        const unread = await ipfsNotificationService.getUnreadCount(address);
+
+        // Only update if there are changes
+        if (freshNotifications.length !== notifications.length || unread !== unreadCount) {
+          setNotifications(freshNotifications);
+          setUnreadCount(unread);
+        }
+      } catch (error) {
+        console.error('Error in periodic notification refresh:', error);
+      }
+    }, 30000); // Check every 30 seconds
+
     return () => {
       unsubscribe();
+      clearInterval(refreshInterval);
     };
-  }, [address]);
+  }, [address, notifications.length, unreadCount]);
 
-  // Create notification (for IPFS, this is handled automatically by monitoring interactions)
+  // Create notification (including follow notifications)
   const createNotification = useCallback(async (params: CreateNotificationParams): Promise<boolean> => {
-    if (!settings[params.type] || params.toUser === address) {
-      return false; // Don't create notification if disabled or self-notification
+    // Check if notification type is disabled
+    if (!settings[params.type]) {
+      console.log('❌ Notification type disabled:', params.type);
+      return false;
     }
 
-    // For IPFS-based notifications, we don't manually create them
-    // They are automatically detected from IPFS social interactions
+    // Prevent self-notifications (when someone tries to follow themselves)
+    if (params.fromUser.address === params.toUser) {
+      console.log('❌ Self-notification prevented');
+      return false;
+    }
+
+    console.log('✅ Creating notification:', params.type, 'from:', params.fromUser.address, 'to:', params.toUser);
+
+    // Handle follow notifications specially
+    if (params.type === 'follow') {
+      return await ipfsNotificationService.createFollowNotification(params);
+    }
+
+    // For other IPFS-based notifications, they are automatically detected from IPFS social interactions
     return true;
-  }, [settings, address]);
+  }, [settings]);
 
   // Mark notifications as read
   const markAsRead = useCallback(async (notificationIds: string[]): Promise<boolean> => {

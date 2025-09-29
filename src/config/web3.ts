@@ -57,7 +57,7 @@ export const config = getDefaultConfig({
 export const CONTRACT_ADDRESSES = {
   HIBEATS_TOKEN: import.meta.env.VITE_HIBEATS_TOKEN_ADDRESS as `0x${string}`,
   HIBEATS_NFT: import.meta.env.VITE_HIBEATS_NFT_ADDRESS as `0x${string}`,
-  HIBEATS_PROFILE: import.meta.env.VITE_HIBEATS_PROFILE_ADDRESS as `0x${string}`,
+  HIBEATS_PROFILE: (import.meta.env.VITE_HIBEATS_PROFILE_ADDRESS || '0x1259D20501c2574C36d7A80c45B9bD4CbE152c6B') as `0x${string}`,
   HIBEATS_PROFILE_ENHANCED: import.meta.env.VITE_HIBEATS_PROFILE_ENHANCED_ADDRESS as `0x${string}`,
   HIBEATS_ROYALTIES: import.meta.env.VITE_HIBEATS_ROYALTIES_ADDRESS as `0x${string}`,
   HIBEATS_MARKETPLACE: import.meta.env.VITE_HIBEATS_MARKETPLACE_ADDRESS as `0x${string}`,
