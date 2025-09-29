@@ -1,12 +1,4 @@
 # HiBeats
-![Built on Somnia](https://img.shields.io/badge/Built%20on-Somnia-blueviolet?style=for-the-badge&logo=ethereum)  
-![AI Powered](https://img.shields.io/badge/AI-Powered-lightblue?style=for-the-badge&logo=openai)  
-![License MIT](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)  
-![Status](https://img.shields.io/badge/Status-Production%20Ready-success?style=for-the-badge)  
-## Project Demo
-[Go to site](https://www.hibeats.xyz/)
-
-<img width="1918" height="921" alt="Screenshot 2025-09-27 165912" src="https://github.com/user-attachments/assets/ee1ed4e1-0e3-4e3c-a175-b2cfc01dcc4e" />< HEAD
 
 ## Project Demo
 [Go to site](https://www.hibeats.fun/)
