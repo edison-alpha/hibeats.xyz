@@ -3,7 +3,7 @@
 ## Project Demo
 [Go to site](https://www.hibeats.fun/)
 
-![Project Screenshot](https://via.placeholder.com/800x400/1a1b23/ffffff?text=HiBeats+Platform)
+
 =======
 ![Built on Somnia](https://img.shields.io/badge/Built%20on-Somnia-blueviolet?style=for-the-badge&logo=ethereum)  
 ![AI Powered](https://img.shields.io/badge/AI-Powered-lightblue?style=for-the-badge&logo=openai)  
